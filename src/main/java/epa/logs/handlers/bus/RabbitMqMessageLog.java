@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import reactor.rabbitmq.Receiver;
 
+import java.time.LocalDateTime;
+
 @Component
 public class RabbitMqMessageLog implements CommandLineRunner
 {
@@ -27,10 +29,11 @@ public class RabbitMqMessageLog implements CommandLineRunner
                     String sMensaje = new String(message.getBody());
                     Logs miLog = new Logs();
                     miLog.setMensaje(sMensaje);
+                    miLog.setFecha(LocalDateTime.now());
 
                     System.out.println(sMensaje);
-                    repo.save(miLog).subscribe();
-                    return Mono.empty();
+                    return repo.save(miLog).subscribe();
+                    //return Mono.empty();
                 }).subscribe();
     }
 }
