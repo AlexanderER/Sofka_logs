@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+
+  logs_sofka:
+    image: alexer1515/logsapp
+    ports:
+      - '8089:8089'
+    links:
+      - mongo_sofka
+    environment:
+      - mongo.uri=mongodb://mongo_sofka:27017
+    depends_on:
+      - mongo_sofka
+
+  mongo_sofka:
+    image: mongo
+    ports:
+      #- '27017:27017'
+      - '27018:27017'
+    volumes:
+      - data_mongo_sofka:/data/db
+
+volumes:
+  data_mongo_sofka:
