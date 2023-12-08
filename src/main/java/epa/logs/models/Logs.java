@@ -3,7 +3,7 @@ package epa.logs.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("M_CuentaMongo")
+@Document("Logs")
 public class Logs
 {
     @Id
