@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logs-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sofka-logs
+  template:
+    metadata:
+      labels:
+        app: sofka-logs
+    spec:
+      containers:
+        - name: sofka-logs
+          image: alexer1515/logsapp #Defino la imagen
+          ports:
+            - containerPort: 8089
+          env:
+            - name: mongo.uri
+              valueFrom:
+                configMapKeyRef:
+                  name: web-config
+                  key: mongo.uri
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: log-service
+spec:
+  type: NodePort
+  selector:
+    app: sofka-logs
+  ports:
+    - protocol: TCP
+      port: 8089
+      targetPort: 8089
+      nodePort: 30007
